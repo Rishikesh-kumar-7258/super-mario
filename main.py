@@ -16,10 +16,8 @@ clock = pygame.time.Clock()
 while 1:
 
     events = pygame.event.get()
-    event_list = []
     for event in events:
         if event.type == QUIT:
-            event_list.append(event)
             exit()
     
     screen.fill(THECOLORS['skyblue'])
