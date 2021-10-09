@@ -17,9 +17,10 @@ class Statemachine:
         self.current = None
         self.states = states
     
-    def change(self, state) -> None:
+    def change(self, state, **params) -> None:
         """
         This is the function to change the change the state.
+        It taks **params as the argument to pass some value to the next game state.
         """
 
         # checking if the given state exists in self.states
@@ -33,7 +34,7 @@ class Statemachine:
         self.current = self.states[state]
 
         # Entering into the new current state
-        self.current.enter()
+        self.current.enter(**params)
     
     def update(self, params) -> None:
         """

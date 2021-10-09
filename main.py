@@ -1,6 +1,9 @@
 import pygame
 from pygame.constants import QUIT
 from pygame.color import THECOLORS
+from objects.statemachine import Statemachine
+
+from states.playstate import Play
 
 # initializing pygame
 pygame.init()
@@ -18,6 +21,22 @@ pygame.display.set_caption("Super Mario")
 # making a clock to manage the game loop
 clock = pygame.time.Clock()
 
+# different states of our game
+states = {
+    "start" : None,
+    "play" : Play(),
+    "over" : None
+}
+
+# state machine object with states
+gstatemachine = Statemachine(states=states)
+
+# entering into the first state
+gstatemachine.change("play", screen=screen, 
+                            gwidth=window_width, 
+                            gheight=window_height,
+                            gstatemachine=gstatemachine)
+
 # this is our game loop
 while 1:
 
@@ -29,6 +48,9 @@ while 1:
     
     # filling the screen with skyblue color
     screen.fill(THECOLORS['skyblue'])
+
+    # updating the gstatemachine object's current state
+    gstatemachine.update(params=events)
 
     # updating the display
     pygame.display.flip()
