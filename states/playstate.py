@@ -9,8 +9,6 @@ class Play(Base):
     """
 
     def __init__(self) -> None:
-        """ Constructor method """
-
         # call the constructor method for the class it herited from in this case base class
         super().__init__()
 
@@ -23,14 +21,13 @@ class Play(Base):
         #number of rows and columns on the game screen
         self.rows : int= 0
         self.cols : int= 0
-        self.row_height = 50
+        self.row_height = 40
         self.col_width = 50
 
     
     def render(self) -> None:
         
         # rendering brick
-        self.draw_wall("normal")
         self.all_sprites.draw(self.screen)
 
     def update(self, param) -> None:
@@ -49,13 +46,16 @@ class Play(Base):
         self.rows = self.gheight // self.row_height
         self.cols = self.gwidth // self.col_width
 
+        #drawing walls
+        self.draw_wall("normal")
+
     def draw_wall(self, type) -> None:
         if type == 'normal':
             for col in range(self.cols):
-                for row in range(self.rows):
-                    if row >= int(self.rows * 0.75):
+                for row in range(self.rows + 1):
+                    if row >= int(self.rows * 0.70):
                         brick = Brick()
-                        brick.rect.x = 0 + col*self.col_width
-                        brick.rect.y = 0 + row*self.row_height
+                        brick.rect.x = col*self.col_width
+                        brick.rect.y = row*self.row_height
                         self.all_sprites.add(brick)
                         self.brick_group.add(brick)
