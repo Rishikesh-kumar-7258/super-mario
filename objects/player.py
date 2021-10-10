@@ -11,8 +11,8 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
 
         # loaded both images
-        self.image1 = pygame.image.load("utils/images/player/stand")
-        self.image2 = pygame.image.load("utils/images/player/run")
+        self.image1 = pygame.image.load("utils/images/player/stand.png")
+        self.image2 = pygame.image.load("utils/images/player/run.png")
 
         # checks if the image is running
         self.running = False

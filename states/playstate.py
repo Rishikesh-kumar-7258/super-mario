@@ -1,6 +1,7 @@
 import pygame
 from objects.bricks import Brick
 from states.basestate import Base
+from objects.player import Player
 
 class Play(Base):
     """
@@ -17,6 +18,12 @@ class Play(Base):
 
         #group containing all sprites
         self.all_sprites = pygame.sprite.Group()
+
+        # group containing the player
+        self.player_group = pygame.sprite.GroupSingle()
+        self.player = Player()
+        self.player_group.add(self.player)
+        self.all_sprites.add(self.player)
 
         #number of rows and columns on the game screen
         self.rows : int= 0
