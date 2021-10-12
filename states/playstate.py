@@ -1,4 +1,5 @@
 import pygame
+from pygame.constants import K_RIGHT, KEYDOWN
 from objects.bricks import Brick
 from states.basestate import Base
 from objects.player import Player
@@ -38,6 +39,12 @@ class Play(Base):
         self.all_sprites.draw(self.screen)
 
     def update(self, param) -> None:
+
+        # event handling
+        for event in param:
+            if event.type == KEYDOWN:
+                if event.key == K_RIGHT:
+                    self.player.run
         
         self.render()
     
