@@ -1,6 +1,7 @@
 import pygame
-from pygame.constants import K_RIGHT, KEYDOWN
+from pygame.constants import K_LEFT, K_RIGHT, KEYDOWN, KEYUP
 from objects.bricks import Brick
+from objects.theme import Theme
 from states.basestate import Base
 from objects.player import Player
 
@@ -23,28 +24,48 @@ class Play(Base):
         # group containing the player
         self.player_group = pygame.sprite.GroupSingle()
         self.player = Player()
+        self.player_speed = 5
         self.player_group.add(self.player)
         self.all_sprites.add(self.player)
 
-        #number of rows and columns on the game screen
-        self.rows : int= 0
-        self.cols : int= 0
-        self.row_height = 40
-        self.col_width = 50
+        # themboard
+        self.boards = []
+        self.current_board = Theme()
+        self.boards.append(self.current_board)
+
+        # is the player moving
+        self.is_player_moving = False
 
     
     def render(self) -> None:
         
+        # rendering themeboard
+        self.current_board.render(self.screen)
+
         # rendering brick
         self.all_sprites.draw(self.screen)
 
+
     def update(self, param) -> None:
+
+        if self.is_player_moving:
+            # self.player.rect.x += self.player_speed
+            x,y = self.current_board.origin
+            self.current_board.origin = (x-self.player_speed, y)
 
         # event handling
         for event in param:
             if event.type == KEYDOWN:
                 if event.key == K_RIGHT:
-                    self.player.run
+                    self.is_player_moving = True
+                    self.player_speed = self.player_speed if self.player_speed > 0 else self.player_speed*-1
+                if event.key == K_LEFT:
+                    self.is_player_moving = True
+                    self.player_speed = self.player_speed if self.player_speed < 0 else self.player_speed*-1
+            
+            if event.type == KEYUP:
+                if event.key == K_LEFT or event.key == K_RIGHT:
+                    self.is_player_moving = False
         
         self.render()
     
@@ -55,21 +76,3 @@ class Play(Base):
         self.gwidth = params['gwidth']
         self.gheight = params['gheight']
         self.gstatemachine = params['gstatemachine']
-
-        # actually giving the values to rows and columns
-        self.rows = self.gheight // self.row_height
-        self.cols = self.gwidth // self.col_width
-
-        #drawing walls
-        self.draw_wall("normal")
-
-    def draw_wall(self, type) -> None:
-        if type == 'normal':
-            for col in range(self.cols):
-                for row in range(self.rows + 1):
-                    if row >= int(self.rows * 0.70):
-                        brick = Brick()
-                        brick.rect.x = col*self.col_width
-                        brick.rect.y = row*self.row_height
-                        self.all_sprites.add(brick)
-                        self.brick_group.add(brick)
