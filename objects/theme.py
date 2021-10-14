@@ -5,26 +5,42 @@ from pygame.color import THECOLORS
 class Block:
     """ The smallest unit of the screen """
 
-    def __init__(self, x, y, background=None) -> None:
+    def __init__(self, x, y, background=None, region="normal") -> None:
         """constructor"""
 
+        # passed parameters
         self.background = background
         self.x = x
         self.y = y
+        self.region = region.lower()
 
         # dimensions
         self.width, self.height = 50, 40
 
         # giving the colors to background accorind to its speciality
-        self.color = THECOLORS["white"]
-        if self.background == "sky":
-            self.color = THECOLORS['skyblue']
-        elif self.background == "ground":
-            self.color = THECOLORS['brown']
-        elif self.background == "khai":
-            self.color = THECOLORS['black']
+        self.color = THECOLORS["white"] # default color
+
+        if self.region == "normal":
+            if self.background == "sky": self.color = THECOLORS["skyblue"]
+            if self.background == 'ground' : self.color = THECOLORS['brown']
+            if self.background == 'khai' : self.color = THECOLORS['black']
         
-        self.border_radius = (self.background == "ground") and 5    
+        elif self.region == "jungle":
+            if self.background == "sky": self.color = THECOLORS["lightgreen"]
+            if self.background == 'ground' : self.color = THECOLORS['darkgreen']
+            if self.background == 'khai' : self.color = THECOLORS['black']
+        
+        elif self.region == "snow":
+            if self.background == "sky": self.color = THECOLORS["skyblue"]
+            if self.background == 'ground' : self.color = THECOLORS['white']
+            if self.background == 'khai' : self.color = THECOLORS['black']
+        
+        elif self.region == "fire":
+            if self.background == "sky": self.color = THECOLORS["indianred"]
+            if self.background == 'ground' : self.color = THECOLORS['darkred']
+            if self.background == 'khai' : self.color = THECOLORS['black']
+        
+        self.border_radius = (self.background == "ground") and 5 
     def render(self, screen,origin=(0,0)) -> None:
 
         # rendering a rectangle
@@ -41,22 +57,25 @@ class Theme:
     It will help keep track of the background theme like river, normal ground, jungle etc..
     """
 
-    def __init__(self) -> None:
+    def __init__(self, region="normal", origin=(0,0)) -> None:
+
+        # region of the theme
+        self.region = region
         
         # Dimensions of themeboard
-        width , height = randint(2000, 5000), 520
+        self.width , self.height = randint(2, 5) * 1000, 520
 
         # dimension of each block 
         b_width, b_height = 50, 40
 
         # Number of rows and columns
-        rows, columns = height // b_height, width // b_width
+        rows, columns = self.height // b_height, self.width // b_width
 
         # board containing all the blocks
         self.themeboard = []
 
         # origin of the board
-        self.origin = (0, 0)
+        self.origin = origin
 
         for col in range(columns):
 
@@ -87,7 +106,11 @@ class Theme:
                 
                 # making block object
                 a, b = self.origin
-                block = Block(x=a + col*b_width, y=b+row*b_height, background=background)
+                block = Block(  x = a + col*b_width,
+                                y = b + row*b_height, 
+                                background = background, 
+                                region = self.region,
+                                )
 
                 # adding block to the themeboard
                 self.themeboard.append(block)

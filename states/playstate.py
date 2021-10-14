@@ -1,3 +1,4 @@
+from random import randint
 import pygame
 from pygame.constants import K_LEFT, K_RIGHT, KEYDOWN, KEYUP
 from objects.bricks import Brick
@@ -30,7 +31,7 @@ class Play(Base):
 
         # themboard
         self.boards = []
-        self.current_board = Theme()
+        self.current_board = Theme(region="normal")
         self.boards.append(self.current_board)
 
         # is the player moving
@@ -40,7 +41,8 @@ class Play(Base):
     def render(self) -> None:
         
         # rendering themeboard
-        self.current_board.render(self.screen)
+        for board in self.boards:
+            board.render(self.screen)
 
         # rendering brick
         self.all_sprites.draw(self.screen)
@@ -50,8 +52,16 @@ class Play(Base):
 
         if self.is_player_moving:
             # self.player.rect.x += self.player_speed
-            x,y = self.current_board.origin
-            self.current_board.origin = (x-self.player_speed, y)
+            for board in self.boards:
+                x,y = board.origin
+                board.origin = (x-self.player_speed, y)
+        
+        if self.current_board.origin[0] + self.current_board.width == self.gwidth:
+            regions = ["jungle", "normal", "snow", "fire"]
+            self.current_board = Theme( region=regions[randint(0,len(regions)-1)],
+                                        origin=(self.current_board.origin[0] + self.current_board.width, 0),
+                                        )
+            self.boards.append(self.current_board)
 
         # event handling
         for event in param:
