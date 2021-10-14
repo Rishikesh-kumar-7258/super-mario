@@ -1,4 +1,4 @@
-# Hot Air Balloon
+# Super Mario
 This is an amazing game make using pygame.
 
 ![Visits Badge](https://badges.pufler.dev/visits/Rishikesh-kumar-7258/super-mario)
