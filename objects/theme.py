@@ -41,12 +41,12 @@ class Block:
             if self.background == 'khai' : self.color = THECOLORS['black']
         
         self.border_radius = (self.background == "ground") and 5 
-    def render(self, screen,origin=(0,0)) -> None:
+    def render(self, screen) -> None:
 
         # rendering a rectangle
         pygame.draw.rect(screen, # where
                         self.color,  # which color
-                        [origin[0]+self.x, origin[1]+self.y, self.width, self.height], # dimensions and origin
+                        [self.x, self.y, self.width, self.height], # dimensions and origin
                         border_radius=self.border_radius, # borderradius
                         )
 
@@ -115,8 +115,9 @@ class Theme:
                 # adding block to the themeboard
                 self.themeboard.append(block)
 
+        self.surf = pygame.Surface([self.width, self.height])
+        for block in self.themeboard:
+            block.render(self.surf)
     
     def render(self, screen) -> None:
-
-        for block in self.themeboard:
-            block.render(screen, self.origin)
+        screen.blit(self.surf, self.origin)
