@@ -8,7 +8,7 @@ from objects.player import Player
 
 class Play(Base):
     """
-    This is the main game area. 
+    This is the main game area.
     All the game objects and controls are rendered here.
     """
 
@@ -30,9 +30,7 @@ class Play(Base):
         self.all_sprites.add(self.player)
 
         # themboard
-        self.boards = []
         self.current_board = Theme(region="normal")
-        self.boards.append(self.current_board)
 
         # is the player moving
         self.is_player_moving = False
@@ -41,8 +39,9 @@ class Play(Base):
     def render(self) -> None:
         
         # rendering themeboard
-        for board in self.boards:
-            board.render(self.screen)
+        if self.current_board.prev != None : self.current_board.prev.render(self.screen)
+        self.current_board.render(self.screen)
+        if self.current_board.next != None : self.current_board.next.render(self.screen)
 
         # rendering brick
         self.all_sprites.draw(self.screen)
@@ -50,18 +49,27 @@ class Play(Base):
 
     def update(self, param) -> None:
 
+        # moving the player
         if self.is_player_moving:
             # self.player.rect.x += self.player_speed
-            for board in self.boards:
-                x,y = board.origin
-                board.origin = (x-self.player_speed, y)
+            if self.current_board.prev != None : self.current_board.prev.move(self.player_speed)
+            self.current_board.move(self.player_speed)
+            if self.current_board.next != None : self.current_board.next.move(self.player_speed)
         
+        # updating current board to next board 
+        if self.current_board.origin[0] + self.current_board.width <= self.gwidth // 2:
+            self.current_board = self.current_board.next
+        if self.current_board.origin[0] >= self.gwidth // 2:
+            self.current_board = self.current_board.prev
+
+        # Creating a new theme
         if self.current_board.origin[0] + self.current_board.width == self.gwidth:
             regions = ["jungle", "normal", "snow", "fire"]
-            self.current_board = Theme( region=regions[randint(0,len(regions)-1)],
-                                        origin=(self.current_board.origin[0] + self.current_board.width, 0),
+            if self.current_board.next == None : self.current_board.next = Theme( region=regions[randint(0,len(regions)-1)],
+                                        origin=(0, 0),
                                         )
-            self.boards.append(self.current_board)
+            self.current_board.next.origin = (self.gwidth, 0)
+            self.current_board.next.prev = self.current_board
 
         # event handling
         for event in param:

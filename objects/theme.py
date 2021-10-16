@@ -59,6 +59,10 @@ class Theme:
 
     def __init__(self, region="normal", origin=(0,0)) -> None:
 
+        # previous and next themes
+        self.prev = None
+        self.next = None
+
         # region of the theme
         self.region = region
         
@@ -121,3 +125,7 @@ class Theme:
     
     def render(self, screen) -> None:
         screen.blit(self.surf, self.origin)
+
+    def move(self, speed) -> None:
+        x,y = self.origin
+        self.origin = (x-speed, y)
