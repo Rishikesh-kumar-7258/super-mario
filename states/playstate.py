@@ -22,18 +22,16 @@ class Play(Base):
         #group containing all sprites
         self.all_sprites = pygame.sprite.Group()
 
-        # group containing the player
-        self.player_group = pygame.sprite.GroupSingle()
-        self.player = Player()
-        self.player_speed = 5
-        self.player_group.add(self.player)
-        self.all_sprites.add(self.player)
+        
 
         # themboard
         self.current_board = Theme(region="normal")
 
         # is the player moving
         self.is_player_moving = False
+
+        # gravity
+        self.gravity = 1
 
     
     def render(self) -> None:
@@ -49,12 +47,20 @@ class Play(Base):
 
     def update(self, param) -> None:
 
+        # stopping player on the ground
+        # if self.player.rect.y + self.player.rect.height + 5 >= 
+
+        # updating the speed
+        self.player_speedY += self.gravity
+
+        # applying gravity to the player
+        # self.player.rect.y += self.player_speedY
+
         # moving the player
         if self.is_player_moving:
-            # self.player.rect.x += self.player_speed
-            if self.current_board.prev != None : self.current_board.prev.move(self.player_speed)
-            self.current_board.move(self.player_speed)
-            if self.current_board.next != None : self.current_board.next.move(self.player_speed)
+            if self.current_board.prev != None : self.current_board.prev.move(self.player_speedX)
+            self.current_board.move(self.player_speedX)
+            if self.current_board.next != None : self.current_board.next.move(self.player_speedX)
         
         # updating current board to next board 
         if self.current_board.origin[0] + self.current_board.width <= self.gwidth // 2:
@@ -76,10 +82,10 @@ class Play(Base):
             if event.type == KEYDOWN:
                 if event.key == K_RIGHT:
                     self.is_player_moving = True
-                    self.player_speed = self.player_speed if self.player_speed > 0 else self.player_speed*-1
+                    self.player_speedX = self.player_speedX if self.player_speedX > 0 else self.player_speedX*-1
                 if event.key == K_LEFT:
                     self.is_player_moving = True
-                    self.player_speed = self.player_speed if self.player_speed < 0 else self.player_speed*-1
+                    self.player_speedX = self.player_speedX if self.player_speedX < 0 else self.player_speedX*-1
             
             if event.type == KEYUP:
                 if event.key == K_LEFT or event.key == K_RIGHT:
@@ -94,3 +100,13 @@ class Play(Base):
         self.gwidth = params['gwidth']
         self.gheight = params['gheight']
         self.gstatemachine = params['gstatemachine']
+
+        # group containing the player
+        self.player_group = pygame.sprite.GroupSingle()
+        self.player = Player()
+        self.player.rect.y = self.gheight - 160 - self.player.rect.height
+        self.player.rect.x = 0
+        self.player_speedX = 5
+        self.player_speedY = 0
+        self.player_group.add(self.player)
+        self.all_sprites.add(self.player)

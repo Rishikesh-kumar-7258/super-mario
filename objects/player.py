@@ -2,7 +2,7 @@ import pygame
 
 class Player(pygame.sprite.Sprite):
     """
-    This is player class. 
+    This is player class.
     Player object will be made from here
     """
 
