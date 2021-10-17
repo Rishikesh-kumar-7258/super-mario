@@ -4,6 +4,7 @@ class Player(pygame.sprite.Sprite):
     """
     This is player class.
     Player object will be made from here
+    This player can make be animated and do other stuff too.
     """
 
     def __init__(self) -> None:
