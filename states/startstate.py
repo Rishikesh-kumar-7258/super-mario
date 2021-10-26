@@ -2,6 +2,7 @@ import pygame
 from pygame.color import THECOLORS
 from states.basestate import Base
 from utils.functions import Write
+from objects.button import Button
 
 class Start(Base):
     """
@@ -20,11 +21,21 @@ class Start(Base):
                 y = self.gheight // 2,
                 center = True
                 )
+        
+        self.startbtn.render(self.screen)
 
     def update(self, param) -> None:
+
+        self.startbtn.update()
         self.render()
 
     def enter(self, **params) -> None:
         self.screen = params['screen']
         self.gwidth = params['gwidth']
         self.gheight = params['gheight']
+
+        self.startbtn = Button( pos=(self.gwidth//2, 
+                                self.gheight//2 + 100), 
+                                text="Start", 
+                                background=THECOLORS['darkgreen'],
+                                )
