@@ -16,7 +16,7 @@ class Player(pygame.sprite.Sprite):
         self.image2 = pygame.image.load("utils/images/player/run.png")
 
         # checks if the image is running
-        self.running = False
+        self.running = False 
 
         # counts the time for animation of running
         self.timepassed = 0

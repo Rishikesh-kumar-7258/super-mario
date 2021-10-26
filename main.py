@@ -4,6 +4,7 @@ from pygame.color import THECOLORS
 from objects.statemachine import Statemachine
 
 from states.playstate import Play
+from states.startstate import Start
 
 # initializing pygame
 pygame.init()
@@ -23,7 +24,7 @@ clock = pygame.time.Clock()
 
 # different states of our game
 states = {
-    "start" : None,
+    "start" : Start(),
     "play" : Play(),
     "over" : None
 }
@@ -32,10 +33,10 @@ states = {
 gstatemachine = Statemachine(states=states)
 
 # entering into the first state
-gstatemachine.change("play", screen=screen, 
-                            gwidth=window_width, 
-                            gheight=window_height,
-                            gstatemachine=gstatemachine)
+gstatemachine.change("start",   screen=screen, 
+                                gwidth=window_width, 
+                                gheight=window_height,
+                                gstatemachine=gstatemachine)
 
 # this is our game loop
 while 1:

@@ -1,6 +1,6 @@
 import pygame
 
-def Write(fontsize=24, text="Namastey!", color=(0,0,0), background=None, screen=None) -> None:
+def Write(fontsize=24, text="Namastey!", color=(0,0,0), background=None, screen=None, x=0, y=0, center:bool=False) -> None:
     """
     This function will render text on screen.
 
@@ -10,7 +10,10 @@ def Write(fontsize=24, text="Namastey!", color=(0,0,0), background=None, screen=
         color    : default white
         background: default None
         screen   : default None -- pass where you want the text to be rendered
-
+        x        : position in x-cordinate - Default 0
+        y        : position in y-cordinate - Default 0
+        center   : a boolean value which determines if the text is to be centered at (x, y)
+                    default False
     USAGE:
         from utils.functions import Write
         Write(parameters)
@@ -30,6 +33,11 @@ def Write(fontsize=24, text="Namastey!", color=(0,0,0), background=None, screen=
     # making a rectangle object form the text 
     # means the area of the text
     textRect = txt.get_rect()
+    if center:
+        textRect.center = (x,y)
+    else:
+        textRect.x = x
+        textRect.y = y
 
     # finally showing the font on the screen
-    screen.blit(font, textRect)
+    screen.blit(txt, textRect)
