@@ -2,6 +2,7 @@ import pygame
 from pygame.constants import QUIT
 from pygame.color import THECOLORS
 from objects.statemachine import Statemachine
+from spritesheet import SpriteSheet
 
 from states.playstate import Play
 from states.startstate import Start
@@ -37,6 +38,10 @@ gstatemachine.change("start",   screen=screen,
                                 gwidth=window_width, 
                                 gheight=window_height,
                                 gstatemachine=gstatemachine)
+                            
+
+sprite = SpriteSheet("green_alien.png")
+first = sprite.get_sprite(0, 0, 16, 20)
 
 # this is our game loop
 while 1:
@@ -49,6 +54,7 @@ while 1:
     
     # filling the screen with skyblue color
     screen.fill(THECOLORS['skyblue'])
+    screen.blit(first, (0, 0))
 
     # updating the gstatemachine object's current state
     gstatemachine.update(params=events)
