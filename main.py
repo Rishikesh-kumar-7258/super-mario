@@ -2,6 +2,7 @@ import pygame
 from src.statemachine import Statemachine
 
 from src.states.startstate import Start
+from src.states.playstate import PlayState
 
 pygame.init()
 
@@ -19,6 +20,7 @@ clock = pygame.time.Clock()
 # different states
 states = {
     'start' : Start(),
+    'play' : PlayState()
 }
 gstatemachine = Statemachine(states)
 gstatemachine.change("start", screen=screen, gstatemachine=gstatemachine)
