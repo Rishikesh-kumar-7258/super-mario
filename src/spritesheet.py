@@ -11,10 +11,14 @@ def give_images(spritesheet, x, y, width, height, count):
     sheet_width = spritesheet.get_width()
     sheet_height = spritesheet.get_height()
 
+    rows = sheet_height // height
+    cols = sheet_width // width
+
     images = []
-    for i in range(count):
-        surf = pygame.Surface([width, height])
-        surf.blit(surf, (0, 0), (x + i*width, y, width, height))
-        images.append(surf)
+    for row in range(rows):
+        for col in range(cols):
+            surf = pygame.Surface([width, height])
+            surf.blit(spritesheet, (0,0), (col*width, row*height, width, height))
+            images.append(surf)
 
     return images
