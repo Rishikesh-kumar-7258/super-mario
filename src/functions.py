@@ -36,9 +36,10 @@ def screen_animation(i_c, f_c, time, screen):
     running = True
     while running:
         current += step
-        screen.fill(current)
+        screen.fill((current, current, current))
         time -= 1
         if (time == 0):
-            screen.fill(f_c)
+            screen.fill((f_c, f_c, f_c))
             running = False
+        pygame.display.flip()
         clock.tick(60)

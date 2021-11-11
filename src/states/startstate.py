@@ -1,7 +1,7 @@
 import pygame
 from pygame.color import THECOLORS
 from pygame.constants import K_RETURN, KEYDOWN
-from src.functions import Write, transition
+from src.functions import Write, transition, screen_animation
 from src.states.basestate import Base
 
 
@@ -48,4 +48,4 @@ class Start(Base):
         self.render()
     
     def leave(self):
-        pass
+        screen_animation(0, 255, 0.3, self.screen)

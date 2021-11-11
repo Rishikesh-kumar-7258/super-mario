@@ -1,6 +1,6 @@
 import pygame
 from src.states.basestate import Base
-from src.functions import Write, screen_animation
+from src.functions import Write
 
 class PlayState(Base):
 
@@ -22,5 +22,4 @@ class PlayState(Base):
         self.render()
 
     def leave(self):
-        
-        screen_animation(0, 255, 1, self.screen)
+        pass
