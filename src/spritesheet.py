@@ -19,6 +19,7 @@ def give_images(spritesheet, x, y, width, height, count):
         for col in range(cols):
             surf = pygame.Surface([width, height])
             surf.blit(spritesheet, (0,0), (col*width, row*height, width, height))
+            surf.set_colorkey((0,0, 0))
             images.append(surf)
 
     return images

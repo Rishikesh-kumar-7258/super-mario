@@ -19,6 +19,8 @@ class PlayState(Base):
         self.spritesheet = Spritesheet("graphics/backgrounds.png")
         self.background = give_images(self.spritesheet, 0, 0, 256, 128, 3)
 
+        self.aliens = give_images(Spritesheet("graphics/blue_alien.png"), 0, 0, 16, 20, 11)
+
         # scaling the images to get the full screen effect
         for i in range(len(self.background)):
             self.background[i] = pygame.transform.scale(self.background[i], (self.screen_width, self.screen_height))
@@ -27,9 +29,12 @@ class PlayState(Base):
         self.current_image = randint(0, len(self.background)-1)
 
 
+
     def render(self):
         
         self.screen.blit(self.background[self.current_image], (0, 0))
+        self.screen.blit(self.aliens[0], (0,0))
+
 
     def update(self, param):
         self.render()

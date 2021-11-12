@@ -1,4 +1,5 @@
 import pygame
+from random import randint
 
 def Write(text, x, y, color, font_size, screen, center=True):
     font = pygame.font.SysFont("Comic Sans MS", font_size)
@@ -43,3 +44,8 @@ def screen_animation(i_c, f_c, time, screen):
             running = False
         pygame.display.flip()
         clock.tick(60)
+    
+def random_color():
+    """ This function will return a random color """
+
+    return (randint(0, 255), randint(0, 255), randint(0, 255))
