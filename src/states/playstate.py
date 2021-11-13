@@ -1,5 +1,8 @@
 import pygame
 from random import randint
+
+from pygame.constants import K_SPACE, KEYDOWN
+from src.objects import PLAYER
 from src.spritesheet import Spritesheet, give_images
 from src.states.basestate import Base
 from src.functions import Write
@@ -21,6 +24,15 @@ class PlayState(Base):
 
         self.aliens = give_images(Spritesheet("graphics/blue_alien.png"), 0, 0, 16, 20, 11)
 
+        self.player = PLAYER.copy()
+        self.player['x'] = 0
+        self.player['y'] = 0
+        self.player['width'] = 16
+        self.player['height'] = 20
+        self.player['status'] = 0
+
+        self.current_player = 0
+
         # scaling the images to get the full screen effect
         for i in range(len(self.background)):
             self.background[i] = pygame.transform.scale(self.background[i], (self.screen_width, self.screen_height))
@@ -33,10 +45,15 @@ class PlayState(Base):
     def render(self):
         
         self.screen.blit(self.background[self.current_image], (0, 0))
-        self.screen.blit(self.aliens[0], (0,0))
+        self.screen.blit(self.aliens[self.current_player], (0,0))
 
 
     def update(self, param):
+        for event in param:
+            if event.type == KEYDOWN:
+                if event.key == K_SPACE:
+                    self.current_player += 1
+                    self.current_player %= 11
         self.render()
 
     def leave(self):

@@ -22,4 +22,7 @@ def give_images(spritesheet, x, y, width, height, count):
             surf.set_colorkey((0,0, 0))
             images.append(surf)
 
+            if (len(images) == count):
+                break
+
     return images
