@@ -9,21 +9,26 @@ BRICK = {
     'color' : random_color()
 }
 
-PLAYER = {
-    """ 
+""" 
     This will contain player information.
     status:
-        0 - standing
-        1 - running
-        2 - jumping up
-        3 - jumping down
-        4 - climbing up
-        5 - climbing down
-    """
+        standing
+        running
+        jumping up
+        jumping down
+        climbing up
+        climbing down
+"""
+PLAYER = {
+    
     'x' :0,
     'y' : 0,
-    'status' : 0,
+    'status' : 'STANDING',
     'width' : 0,
     'height' : 0,
-    'alive' : True
+    'alive' : True,
+    'gravity' : True,
+    'speed' : 3,
+    'velocity' : 0,
+    'type' : 'PLAYER'
 }
