@@ -54,6 +54,7 @@ class PlayState(Base):
                 if event.key == K_SPACE:
                     self.current_player += 1
                     self.current_player %= 11
+
         self.render()
 
     def leave(self):
