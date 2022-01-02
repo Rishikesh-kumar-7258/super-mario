@@ -30,5 +30,6 @@ PLAYER = {
     'gravity' : True,
     'speed' : 3,
     'velocity' : 0,
-    'type' : 'PLAYER'
+    'type' : 'PLAYER',
+    'current_player' : 0,
 }

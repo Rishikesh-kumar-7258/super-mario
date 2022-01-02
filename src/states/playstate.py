@@ -7,6 +7,7 @@ from src.spritesheet import Spritesheet, give_images
 from src.states.basestate import Base
 from src.functions import Write
 
+ANIMATE = pygame.USEREVENT + 1
 
 class PlayState(Base):
 
@@ -14,6 +15,8 @@ class PlayState(Base):
         super().__init__()
 
         self.all_sprites = []
+
+        
 
     def enter(self, **param):
 
@@ -29,13 +32,12 @@ class PlayState(Base):
             "graphics/blue_alien.png"), 0, 0, 16, 20, 11)
 
         self.player = PLAYER.copy()
-        self.player['width'] = 16
-        self.player['height'] = 20
-        self.player['status'] = 0
-
-        self.current_player = 0
+        self.player['width'] = 32
+        self.player['height'] = 40
 
         self.all_sprites.append(self.player)
+
+        pygame.time.set_timer(ANIMATE, 100)
 
         # scaling the images to get the full screen effect
         for i in range(len(self.background)):
@@ -48,24 +50,12 @@ class PlayState(Base):
     def render(self):
 
         self.screen.blit(self.background[self.current_image], (0, 0))
-        self.screen.blit(self.aliens[self.current_player],
+        self.screen.blit(pygame.transform.scale(self.aliens[self.player['current_player']], (32, 40)),
                          (self.player['x'], self.player['y']))
 
     def update(self, param):
-        # # applying gravity on all sprites
-        # for sprites in self.all_sprites:
-        #     if self.touches_ground(sprites):
-        #         continue
-        #     if sprites['gravity']:
-        #         sprites['y'] += 3
-
-        # # For player's movement animation
-        # self.player['x'] += self.player['velocity']
+        
         handleObject(self.player, self.screen, events=param)
-
-        # key pressing events
-        # for event in param:
-        # When a key is pressed
 
         self.render()
 
@@ -75,7 +65,7 @@ class PlayState(Base):
 # Functions to control different objects in the game
 
 
-def handlePlayer(player, **args):
+def handlePlayer(player,**args):
 
     # eventHandling
     for event in args['events']:
@@ -92,6 +82,18 @@ def handlePlayer(player, **args):
             if event.key == K_RIGHT:
                 player['status'] = 'STANDING'
                 player['velocity'] = 0
+            if event.key == K_LEFT:
+                player['status'] = 'STANDING'
+                player['velocity'] = 0
+
+        # ANIMATE custom made event
+        if event.type == ANIMATE:
+            if player['status'] == 'RUNNING':
+                player['current_player'] = player['current_player'] + 1
+                if player['current_player'] > 2:
+                    player['current_player'] = 1
+            else:
+                player['current_player'] = 0
 
     # applying gravity on player
     if player['gravity']:
@@ -100,9 +102,6 @@ def handlePlayer(player, **args):
 
     player['x'] += player['velocity']
 
-    # applying status effects on player
-    # if player['status'] == 'RUNNING':
-        # 
 
 
 def handleObject(object, screen=None, events=None):
