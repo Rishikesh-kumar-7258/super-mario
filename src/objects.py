@@ -1,4 +1,5 @@
 from src.functions import random_color
+from src.spritesheet import Spritesheet, give_images
 
 
 BRICK = {

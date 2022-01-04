@@ -3,7 +3,7 @@ import pygame
 def Spritesheet(path) :
     """ This function returns a spritesheet on the given path """
 
-    return pygame.image.load(path).convert()
+    return pygame.image.load(path)
 
 def give_images(spritesheet, x, y, width, height, count):
     """ This function will give a list of images """
@@ -26,3 +26,12 @@ def give_images(spritesheet, x, y, width, height, count):
                 break
 
     return images
+
+# Images
+BACKGROUND_SPRITESHEET = Spritesheet("graphics/backgrounds.png")
+BACKGROUND_IMAGES = give_images(BACKGROUND_SPRITESHEET, 0, 0, 256, 128, 3)
+
+ALIEN_IMAGES = give_images(Spritesheet("graphics/blue_alien.png"), 0, 0, 16, 20, 11)
+ALIEN_RUNNING = ALIEN_IMAGES[1:3] + [pygame.transform.flip(img, True, False) for img in ALIEN_IMAGES[1:3]]
+ALIEN_JUMPING = ALIEN_IMAGES[3:5] + [pygame.transform.flip(img, True, False) for img in ALIEN_IMAGES[3:5]]
+ALIEN_CLIMBING = ALIEN_IMAGES[5:7] + [pygame.transform.flip(img, True, False) for img in ALIEN_IMAGES[5:7]]
